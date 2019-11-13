@@ -41,4 +41,5 @@ Route::get('routinesDomingo/{id}', 'RoutinesController@getDomingoId');
 Route::get('documents/{id}', 'api@getDocuments');
 Route::get('images/{id}', 'api@getImages');
 Route::get('routines/{id}', 'api@awa');
+Route::post('postDoc', 'api@pdfPost');
 

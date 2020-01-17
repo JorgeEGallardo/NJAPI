@@ -17,16 +17,20 @@ class api extends Controller
         $routines = routines::where('patient_id','=',$id)->orderBy('day_id')->get();
         return response()->json($routines);
     }
+    public function getRecipes($id){
+        $data= \DB::select('select * from recipes where patient_id = ?', [$id]);
+        return response()->json($data);
+    }
     public function getImages($id){
         $data= \DB::select('select * from images where auth_by = ?', [$id]);
         $paths = array();
-        $domain = "https://adaraw.s3.us-east-2.amazonaws.com/";
+        $domain = "https://adara5.s3.us-east-2.amazonaws.com/";
         $temp = '{}';
         foreach ($data as $image) {
             $temp = $domain.$image->path;
             array_push($paths, $temp);
         }
-        return response()->json($temp);
+        return response()->json($paths);
     }
     public function pdfPost(Request $request){
         $file = $request->file;
@@ -53,7 +57,7 @@ class api extends Controller
     public function getDocuments($id){
         $data= \DB::select('select * from documents where auth_by = ? and visible = 1', [$id]);
         $paths = array();
-        $domain = "https://adaraw.s3.us-east-2.amazonaws.com/";
+        $domain = "https://adara5.s3.us-east-2.amazonaws.com/";
         $temp = '{}';
         foreach ($data as $document) {
             $temp = $domain.$document->path;

@@ -76,6 +76,12 @@ class MenuController extends Controller
         $menu = Menu::where('patient_id','=',$id)->orderBy('day_id')->orderBy('cat_id')->get();
         return response()->json($menu);
     }
+        public function getRecipe($id)
+    {
+        //Regresa el menu que tiene un paciente el viernes.
+        $menu = Menu::where('patient_id','=',$id)->orderBy('day_id')->get();
+        return response()->json($menu);
+    }
     public function getSabadoId($id)
     {
         //Regresa el menu que tiene un paciente el sabado.

@@ -9,22 +9,29 @@ use Illuminate\Http\Request;
 use App\document;
 use App\Http\Requests\StoreDocument;
 use Illuminate\Support\Facades\Storage;
-
 class api extends Controller
 {
-    public function awa($id)
+    private $url=["https://adara5.s3.us-east-2.amazonaws.com/", "https://edere5.s3.us-east-2.amazonaws.com/"];
+    private $disk =['s3', 's32'];
+    public function awa($id, $url)
     {
+        $connection = $url;
+        app('db')->setDefaultConnection($connection);
         $routines = routines::where('patient_id','=',$id)->orderBy('day_id')->get();
         return response()->json($routines);
     }
-    public function getRecipes($id){
+    public function getRecipes($id, $url){
+        $connection = $url;
+        app('db')->setDefaultConnection($connection);
         $data= \DB::select('select * from recipes where patient_id = ?', [$id]);
         return response()->json($data);
     }
-    public function getImages($id){
+    public function getImages($id, $url){
+        $connection = $url;
+        app('db')->setDefaultConnection($connection);
         $data= \DB::select('select * from images where auth_by = ?', [$id]);
         $paths = array();
-        $domain = "https://adara5.s3.us-east-2.amazonaws.com/";
+        $domain = $this->url[$url];
         $temp = '{}';
         foreach ($data as $image) {
             $temp = $domain.$image->path;
@@ -32,7 +39,9 @@ class api extends Controller
         }
         return response()->json($paths);
     }
-    public function pdfPost(Request $request){
+    public function pdfPost(Request $request, $url){
+        $connection = $url;
+        app('db')->setDefaultConnection($connection);
         $file = $request->file;
         $path = $request->file->getClientOriginalName();
         $split = explode('_', $path);
@@ -42,7 +51,7 @@ class api extends Controller
         $split = explode('.', $patient);
         $patient = $split[0];
         }
-        $path = Storage::disk('s3')->put('documents/registry', $request->file, 'public');
+        $path = Storage::disk($this->disk[$url])->put('documents/registry', $request->file, 'public');
 
         $request->merge([
             'size' => $request->file->getClientSize(),
@@ -54,10 +63,12 @@ class api extends Controller
         document::create($request->only('path', 'title', 'size', 'auth_by'));
         return 1;
     }
-    public function getDocuments($id){
+    public function getDocuments($id, $url){
+        $connection = $url;
+        app('db')->setDefaultConnection($connection);
         $data= \DB::select('select * from documents where auth_by = ? and visible = 1', [$id]);
         $paths = array();
-        $domain = "https://adara5.s3.us-east-2.amazonaws.com/";
+        $domain = $this->url[$url];
         $temp = '{}';
         foreach ($data as $document) {
             $temp = $domain.$document->path;

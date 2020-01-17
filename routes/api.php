@@ -38,9 +38,9 @@ Route::get('routinesViernes/{id}', 'RoutinesController@getViernesId');
 Route::get('routinesSabado/{id}', 'RoutinesController@getSabadoId');
 Route::get('routinesDomingo/{id}', 'RoutinesController@getDomingoId');
 
-Route::get('documents/{id}', 'api@getDocuments');
-Route::get('images/{id}', 'api@getImages');
-Route::get('routines/{id}', 'api@awa');
-Route::get('recipes/{id}', 'api@getRecipes');
-Route::post('postDoc', 'api@pdfPost');
+Route::get('documents/{id}/{url}', 'api@getDocuments');
+Route::get('images/{id}/{url}', 'api@getImages');
+Route::get('routines/{id}/{url}', 'api@awa');
+Route::get('recipes/{id}/{url}', 'api@getRecipes');
+Route::post('postDoc/{url}', 'api@pdfPost');
 

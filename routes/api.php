@@ -19,9 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Pacientes
 Route::get('patientsAll', 'PatientsController@showAll');
-Route::get('patientsLogin', 'PatientsController@login');
+Route::get('patientsLogin/{url}', 'PatientsController@login');
 Route::resource('patients', 'PatientsController');
-
+Route::get('patientshash', 'PatientsController@hashPasswords');
 //Menu
 Route::get('menuGet/{id}', 'MenuController@getMenu');
 Route::delete('menuDestroy/{id}','MenuController@destroyAll');

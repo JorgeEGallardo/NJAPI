@@ -6,41 +6,6 @@ use Illuminate\Http\Request;
 use App\routines;
 class routinesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-        $routine = new Routines;
-        $routine = $request->all();
-        $routine = Routines::create($routine);
-
-        return response()->json($routine);
-    }
     public function showAll()
     {
         //Mostrar todos los pacientes
@@ -89,35 +54,16 @@ class routinesController extends Controller
         $routine = Routines::where('patient_id','=',$id)->where('day_id','=',7)->get();
         return response()->json($routine);
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Desuso
+    /*
+    public function destroy($id)
+    {
+        Routines::find($id)->delete();
+
+        return 204;
+    }
     public function update(Request $request, $id)
     {
         $routine = Routines::findOrFail($id);
@@ -125,17 +71,48 @@ class routinesController extends Controller
 
         return $routine;
     }
+    public function edit($id)
+    {
+        //
+    }
+    public function show($id)
+    {
+        //
+    }
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+
+    public function index()
+    {
+
+    }
 
     /**
-     * Remove the specified resource from storage.
+     * Show the form for creating a new resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        Routines::find($id)->delete();
 
-        return 204;
+    public function create()
+    {
+
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+
+    public function store(Request $request)
+    {
+
+        $routine = new Routines;
+        $routine = $request->all();
+        $routine = Routines::create($routine);
+
+        return response()->json($routine);
+    }
+       */
 }

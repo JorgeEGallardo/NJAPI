@@ -59,19 +59,39 @@ class PatientsController extends Controller
         $patient = Patients::where('id','=',$id)->get();
         return response()->json($patient);
     }
+    public function hashPasswords(){
+        $url = 2;
+        $connection = $url;
+        app('db')->setDefaultConnection($connection);
+        $patients = Patients::all();
+        foreach ($patients as $patient) {
+            $patient->password= \Hash::make($patient->password);
+            $patient->save();
+        }
+        return Patients::all();
+    }
+    public function login(Request $request, $url){
 
-    public function login(Request $request){
+        $connection = $url;
+        app('db')->setDefaultConnection($connection);
+
         $username  = $request->username;
         $password  = $request->password;
-
-        $patient = Patients::where('username','=',$username)->where('password','=',$password)->get();
-
-        if (empty(json_decode($patient))) {
-            return 0;
+        $patient = Patients::where('username','=',$username)->first();
+        if (isset($patient->password)){
+        if (\Hash::check($password, $patient->password))
+        {
+            return response()->json($patient);
         }else {
-            return response()->json($patient[count($patient)-1]);
-        }
-    }
+            return 0;
+         }
+
+            return $patient;
+
+    }else {
+        return 0;
+     }
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -93,6 +113,7 @@ class PatientsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $patient = Patients::findOrFail($id);
         $patient->update($request->all());
 

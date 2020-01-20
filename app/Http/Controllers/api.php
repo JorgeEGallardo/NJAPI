@@ -11,8 +11,19 @@ use App\Http\Requests\StoreDocument;
 use Illuminate\Support\Facades\Storage;
 class api extends Controller
 {
-    private $url=["https://adara5.s3.us-east-2.amazonaws.com/", "https://edere5.s3.us-east-2.amazonaws.com/"];
-    private $disk =['s3', 's4'];
+    //Cada empresa debe tener su propio bucket de S3 y aquí se especifican. Sirve para
+    //mandar llamar imagenes y documentos.
+    private $url=
+    [
+        "https://adara5.s3.us-east-2.amazonaws.com/",
+        "https://edere5.s3.us-east-2.amazonaws.com/"
+    ];
+    //Filesystems.php 57
+    private $disk =
+    [
+        's3',
+        's4'
+    ];
     public function awa($id, $url)
     {
         $connection = $url;
